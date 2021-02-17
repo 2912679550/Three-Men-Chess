@@ -1,2 +1,5 @@
 ﻿  game.cpp
-  三字棋子.vcxproj -> C:\Users\吴志渊\Desktop\三字棋子\Debug\三字棋子.exe
+  test.cpp
+  正在生成代码...
+d:\code of wzy\three-men-chess\三字棋子\三字棋子\game.cpp(118): warning C4715: “sameJudge”: 不是所有的控件路径都返回值
+  三字棋子.vcxproj -> D:\Code of WZY\Three-Men-Chess\三字棋子\Debug\三字棋子.exe

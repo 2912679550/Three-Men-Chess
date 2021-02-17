@@ -45,7 +45,7 @@ void DisplayBoard(char board[ROW][COL], int row, int col)
 void PlayerMove(char board[ROW][COL], int row, int col)
 {
 	int x = 0, y = 0;
-	printf("玩家走:>\n");
+	printf("玩家走:>\t");
 	while (1)
 	{
 		printf("请输入要下的坐标:>");
@@ -86,48 +86,77 @@ void computerMove(char board[ROW][COL], int row, int col)
 	}
 }
 
+
+int sameJudge(char board[ROW][COL], int row_col, int num)//行为1 ，列为0
+{
+	//int isSame = FALSE;
+	switch (row_col)
+	{
+	case 1:
+		for (int i = 1; i < COL; i++)
+		{
+			if (board[num][i - 1] == board[num][i] && board[num][i] != ' ')
+				//isSame = TRUE;
+				continue;
+			else
+				return 0;
+
+		}
+		break;
+	case 0:
+		for (int i = 1; i < ROW; i++)
+		{
+			if (board[i - 1][num] == board[i][num] && board[i][num] != ' ')
+				//isSame = TRUE;
+				continue;
+			else
+				return 0;
+		}
+		break;
+		return 1;
+	}
+}
+
 char IsWin(char board[ROW][COL], int row, int col)
 {
-	int i;
-	int isSame = FALSE;
-	for (i = 0; i < row;i++)
+	//判断是否有一行全部相同
+	for (int i = 0; i < row; i++)
 	{
-		for (int j = 1; j < col; j++)
-		{
-			if ((board[i][j] == board[i][j - 1]) && board[i][j] != ' ')
-				continue;
-			else if(i==2 && isSame==FALSE)
-				goto turn1;
-		}
-		isSame = TRUE;
+		if (sameJudge(board, 1, i))
+			return board[i][0];
+		else
+			continue;
 	}
-	return board[i][1];
-turn1:
-	for (i = 0; i < col; i++)
+	//判断是否有一列全部相同
+	for (int j = 0; j < col; j++)
 	{
-		for (int j = 1; j < row; j++)
-		{
-			if ((board[j][i] == board[j-1][i]) && board[j][i] != ' ')
-				continue;
-			else if (i == 2 && isSame == FALSE)
-				goto turn2;
-		}
-		isSame = TRUE;
+		if (sameJudge(board, 0, j))
+			return board[0][j];
+		else
+			continue;
 	}
-	return board[1][i];
-turn2:
-	for (i = 1; i < col; i++)
+	//判断+对角线是否相同
+	for (int i = 1; i < col; i++)
 	{
-		if ((board[i - 1][i - 1] == board[i][i]) && board[i][i] != ' ')
+		if (board[i - 1][i - 1] == board[i][i] && board[i][i] != ' ')
 			continue;
 		else
-			goto turn3;
+			goto turn;
 	}
-	return board[1][1];
-turn3:
-	if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != ' ')
-		return board[1][1];
-	for (i = 0; i < row; i++)
+	return board[0][0];
+turn:
+	//判断-对角线是否相同
+	for (int i = 1; i < row; i++)
+	{
+		if (board[i - 1][col - i] == board[i][col - 1 - i] && board[i][col - 1 - i] != ' ')
+			continue;
+		else
+			goto turn1;
+	}
+	return board[0][col - 1];
+turn1:
+	//判断是平局还是继续
+	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
 		{
@@ -135,6 +164,5 @@ turn3:
 				return 'C';
 		}
 	}
-	return 'V';
-
+	return 'w';
 }
